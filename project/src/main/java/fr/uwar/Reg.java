@@ -65,16 +65,24 @@ public class Reg {
     }
 
     static {
-        for (Kind kind : Kind.values()) {
-            AIRCRAFTS.put(kind, (RegistryObject<EntityType<Aircraft>>)ENTITIES.register(kind.id, () -> EntityType.Builder.of((t, l) -> new Aircraft(t, l, k), (MobCategory)MobCategory.MISC).sized(k.w, k.h).clientTrackingRange(16).updateInterval(1).fireImmune().build(k.id)));
-            AIRCRAFT_ITEMS.put(kind, (RegistryObject<Item>)ITEMS.register(kind.id, () -> new AircraftItem(k, new Item.Properties().stacksTo(1))));
+        for (final Kind k : Kind.values()) {
+            RegistryObject<EntityType<?>> eo = ENTITIES.register(k.id, () -> EntityType.Builder.<Aircraft>of((t, l) -> new Aircraft(t, l, k), MobCategory.MISC).sized(k.w, k.h).clientTrackingRange(16).updateInterval(1).fireImmune().build(k.id));
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            RegistryObject<EntityType<Aircraft>> typed = (RegistryObject) eo;
+            AIRCRAFTS.put(k, typed);
+            RegistryObject<Item> io = ITEMS.register(k.id, () -> new AircraftItem(k, new Item.Properties().stacksTo(1)));
+            AIRCRAFT_ITEMS.put(k, io);
         }
-        for (Enum enum_ : W.values()) {
-            AMMO.put((W)enum_, (RegistryObject<Item>)ITEMS.register(((W)enum_).item, () -> Reg.lambda$static$4((W)enum_)));
+        for (final W w : W.values()) {
+            RegistryObject<Item> ao = ITEMS.register(w.item, () -> Reg.lambda$static$4(w));
+            AMMO.put(w, ao);
         }
         FUEL_CAN = ITEMS.register("fuel_can", () -> new SupplyItem(SupplyItem.Type.FUEL, null, new Item.Properties().stacksTo(16)));
         REPAIR_KIT = ITEMS.register("repair_kit", () -> new SupplyItem(SupplyItem.Type.REPAIR, null, new Item.Properties().stacksTo(16)));
-        SHELL = ENTITIES.register("shell", () -> EntityType.Builder.of(Shell::new, (MobCategory)MobCategory.MISC).sized(0.3f, 0.3f).clientTrackingRange(10).updateInterval(1).build("shell"));
+        RegistryObject<EntityType<?>> so = ENTITIES.register("shell", () -> EntityType.Builder.<Shell>of(Shell::new, MobCategory.MISC).sized(0.3f, 0.3f).clientTrackingRange(10).updateInterval(1).build("shell"));
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        RegistryObject<EntityType<Shell>> shellTyped = (RegistryObject) so;
+        SHELL = shellTyped;
     }
 }
 

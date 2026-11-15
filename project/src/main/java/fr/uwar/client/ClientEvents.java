@@ -148,12 +148,12 @@ public class ClientEvents {
 
         @SubscribeEvent
         public static void camDist(ViewportEvent.ComputeCameraAngles e) {
-            String[] stringArray;
+            Entity vehicle;
             Camera cam = e.getCamera();
-            if (!cam.isDetached() || cam.getEntity() == null || !((stringArray = cam.getEntity().getVehicle()) instanceof Aircraft)) {
+            if (!cam.isDetached() || cam.getEntity() == null || !((vehicle = cam.getEntity().getVehicle()) instanceof Aircraft)) {
                 return;
             }
-            Aircraft a = (Aircraft)stringArray;
+            Aircraft a = (Aircraft)vehicle;
             if (!moveTried) {
                 moveTried = true;
                 for (String n : new String[]{"move", "move"}) {

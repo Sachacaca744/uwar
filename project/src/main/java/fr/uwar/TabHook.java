@@ -42,8 +42,8 @@ public class TabHook {
             e.accept(Aircraft.makeStack(kind, false));
             e.accept(Aircraft.makeStack(kind, true));
         }
-        for (Enum enum_ : W.values()) {
-            e.accept(new ItemStack((ItemLike)Reg.AMMO.get(enum_).get()));
+        for (W w : W.values()) {
+            e.accept(new ItemStack((ItemLike)Reg.AMMO.get(w).get()));
         }
         e.accept(new ItemStack((ItemLike)Reg.FUEL_CAN.get()));
         e.accept(new ItemStack((ItemLike)Reg.REPAIR_KIT.get()));

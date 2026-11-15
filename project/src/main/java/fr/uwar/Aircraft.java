@@ -444,20 +444,19 @@ extends Entity {
 
     private boolean canTake(SupplyItem si) {
         return switch (si.type) {
-            default -> throw new IncompatibleClassChangeError();
-            case SupplyItem.Type.AMMO -> {
+            case AMMO -> {
                 if (this.cap(si.weapon) > 0 && this.ammo(si.weapon) < this.cap(si.weapon)) {
                     yield true;
                 }
                 yield false;
             }
-            case SupplyItem.Type.FUEL -> {
+            case FUEL -> {
                 if (this.fuel() < this.kind.fuelCap - 1.0f) {
                     yield true;
                 }
                 yield false;
             }
-            case SupplyItem.Type.REPAIR -> this.hp() < this.kind.maxHp - 0.5f;
+            case REPAIR -> this.hp() < this.kind.maxHp - 0.5f;
         };
     }
 

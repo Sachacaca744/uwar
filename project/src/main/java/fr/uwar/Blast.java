@@ -81,7 +81,7 @@ public class Blast {
         DamageSource ds = sl.damageSources().explosion(src, owner);
         double mult = (Double)Cfg.DAMAGE_MULT.get();
         AABB box = new AABB(p, p).inflate((double)radius);
-        List list = sl.getEntities(src, box, e -> e instanceof LivingEntity || e instanceof Aircraft);
+        List<Entity> list = sl.getEntities(src, box, e -> e instanceof LivingEntity || e instanceof Aircraft);
         for (Entity e2 : list) {
             double d;
             if (e2 == src || owner != null && e2 == owner.getVehicle() || (d = e2.position().add(0.0, (double)e2.getBbHeight() * 0.5, 0.0).distanceTo(p)) > (double)radius) continue;

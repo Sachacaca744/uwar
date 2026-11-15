@@ -53,11 +53,11 @@ extends Screen {
         for (int i = 0; i < this.list.size(); ++i) {
             W w = this.list.get(i);
             Button b = Button.builder((Component)Component.empty(), btn -> this.toggle(w)).bounds(this.x0 + i % 2 * 205, this.y0 + i / 2 * 22, 195, 20).tooltip(Tooltip.create((Component)Component.literal((String)w.desc))).build();
-            this.buttons.add((Button)this.addRenderableWidget((GuiEventListener)b));
+            this.buttons.add(this.addRenderableWidget(b));
         }
         int by = this.y0 + (this.list.size() + 1) / 2 * 22 + 30;
-        this.addRenderableWidget((GuiEventListener)Button.builder((Component)Component.literal((String)"Recharger depuis l'inventaire"), btn -> Net.CH.sendToServer((Object)new Net.CmdMsg(2))).bounds(this.x0, by, 195, 20).build());
-        this.addRenderableWidget((GuiEventListener)Button.builder((Component)Component.literal((String)"Fermer"), btn -> this.onClose()).bounds(this.x0 + 195 + 10, by, 195, 20).build());
+        this.addRenderableWidget(Button.builder((Component)Component.literal((String)"Recharger depuis l'inventaire"), btn -> Net.CH.sendToServer((Object)new Net.CmdMsg(2))).bounds(this.x0, by, 195, 20).build());
+        this.addRenderableWidget(Button.builder((Component)Component.literal((String)"Fermer"), btn -> this.onClose()).bounds(this.x0 + 195 + 10, by, 195, 20).build());
         this.refresh();
     }
 
