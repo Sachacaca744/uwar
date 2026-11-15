@@ -764,7 +764,7 @@ extends Entity {
             this.thrust = Math.max(0.0f, this.thrust - 0.01f);
         }
         boolean bl = boost = on && this.inBoost && this.fuel() > 20.0f;
-        double d = on ? (0.04 + (double)this.thrust * 1.5) * (boost ? 1.5 : 1.0) : (tgt = 0.0);
+        tgt = on ? (0.04 + (double)this.thrust * 1.5) * (boost ? 1.5 : 1.0) : 0.0;
         this.speedF = tgt > (double)this.speedF ? (this.speedF += (float)((tgt - (double)this.speedF) * 0.03 + 0.002)) : (this.speedF += (float)((tgt - (double)this.speedF) * 0.015));
         if (ground) {
             this.speedF *= this.inBrake || this.thrust < 0.02f ? 0.96f : 0.997f;

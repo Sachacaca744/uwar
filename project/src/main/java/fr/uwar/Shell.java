@@ -133,7 +133,7 @@ extends Projectile {
                     Vec3 dir;
                     double sp = Math.min((double)w.speed, v.length() + 0.18);
                     Vec3 vec3 = dir = v.lengthSqr() > 1.0E-4 ? v.normalize() : Vec3.ZERO;
-                    double d = w == W.FLAK ? 0.26 : (gain = w == W.BUSTER ? 0.12 : 0.2);
+                    gain = w == W.FLAK ? 0.26 : (w == W.BUSTER ? 0.12 : 0.2);
                     if (this.target != null && (level = this.level()) instanceof ServerLevel) {
                         ServerLevel sl = (ServerLevel)level;
                         t2 = sl.getEntity(this.target);

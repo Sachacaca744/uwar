@@ -23,8 +23,8 @@ public class ClientHooks {
             return;
         }
         boolean bl = ok = mc.screen == null;
-        float f = ok ? (float)((o.keyUp.isDown() ? 1 : 0) - (o.keyDown.isDown() ? 1 : 0)) : (a.inF = 0.0f);
-        float f2 = ok ? (float)((o.keyLeft.isDown() ? 1 : 0) - (o.keyRight.isDown() ? 1 : 0)) : (a.inS = 0.0f);
+        a.inF = ok ? (float)((o.keyUp.isDown() ? 1 : 0) - (o.keyDown.isDown() ? 1 : 0)) : 0.0f;
+        a.inS = ok ? (float)((o.keyLeft.isDown() ? 1 : 0) - (o.keyRight.isDown() ? 1 : 0)) : 0.0f;
         a.inU = ok ? (float)((o.keyJump.isDown() ? 1 : 0) - (o.keySprint.isDown() ? 1 : 0)) : 0.0f;
         a.inBoost = ok && o.keyJump.isDown();
         a.inBrake = ok && o.keySprint.isDown();

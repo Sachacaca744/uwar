@@ -54,7 +54,7 @@ extends EntityRenderer<Shell> {
         ps.pushPose();
         ps.mulPose(Axis.YP.rotationDegrees(-yy));
         ps.mulPose(Axis.XP.rotationDegrees(pp));
-        Mesh mesh = w.missileLike() ? Models.missile : (m = w.bombLike() ? Models.bomb : Models.rocket);
+        m = w.missileLike() ? Models.missile : (w.bombLike() ? Models.bomb : Models.rocket);
         if (w.missileLike() || w.bombLike()) {
             ps.scale(w.visScale(), w.visScale(), w.visScale());
         }
