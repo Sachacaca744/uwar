@@ -1,0 +1,29 @@
+name: 2 - Compiler le mod
+on:
+  push:
+    paths:
+      - 'project/**'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compiler
+        working-directory: project
+        run: |
+          chmod +x gradlew
+          set -o pipefail
+          ./gradlew build --no-daemon 2>&1 | tee ../build.log
+      - name: Sauvegarder le journal et le jar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultat-compilation
+          path: |
+            build.log
+            project/build/libs/*.jar
