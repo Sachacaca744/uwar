@@ -60,7 +60,7 @@ public class Reg {
         return SOUNDS.register(n, () -> SoundEvent.createVariableRangeEvent((ResourceLocation)new ResourceLocation("uwar", n)));
     }
 
-    private static /* synthetic */ Item lambda$static$4(W w) {
+    private static Item ammoItem(W w) {
         return new SupplyItem(SupplyItem.Type.AMMO, w, new Item.Properties().stacksTo(w == W.CANNON ? 64 : 16));
     }
 
@@ -74,7 +74,7 @@ public class Reg {
             AIRCRAFT_ITEMS.put(k, io);
         }
         for (final W w : W.values()) {
-            RegistryObject<Item> ao = ITEMS.register(w.item, () -> Reg.lambda$static$4(w));
+            RegistryObject<Item> ao = ITEMS.register(w.item, () -> Reg.ammoItem(w));
             AMMO.put(w, ao);
         }
         FUEL_CAN = ITEMS.register("fuel_can", () -> new SupplyItem(SupplyItem.Type.FUEL, null, new Item.Properties().stacksTo(16)));
