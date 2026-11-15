@@ -1,0 +1,65 @@
+/*
+ * Decompiled with CFR 0.152.
+ */
+package fr.uwar;
+
+public enum W {
+    CANNON("Canon 20 mm", "Canon 20mm", 5.5f, 0.0f, 0.0f, 2, 75, "cannon_ammo", false, "Tir en rafale, trace jaune. Arme interne : toujours disponible."),
+    ROCKET("Roquettes", "Roquettes", 16.0f, 3.2f, 2.3f, 6, 6, "rocket_pod", false, "Salves de roquettes non guidees, explosion de zone."),
+    MISSILE("Missile guide laser", "Missile laser", 34.0f, 4.2f, 2.0f, 20, 1, "air_missile", false, "Verrouille une cible dans le viseur (20 degres, 135 blocs) puis la poursuit."),
+    BOMB("Bombe", "Bombe", 46.0f, 5.5f, 0.0f, 14, 1, "aerial_bomb", false, "Bombe lachee sous l'appareil. Degats de zone, ne casse pas les blocs."),
+    IR("Missile infrarouge", "Missile IR", 30.0f, 3.5f, 2.4f, 24, 1, "ir_missile", false, "Tire et oublie : cone large (40 degres), cherche seul les sources de chaleur (moteurs d'avions en priorite)."),
+    FLAK("Missile a fragmentation (50 m)", "Fragmentation", 40.0f, 11.0f, 2.2f, 26, 1, "flak_missile", false, "Combat aerien : explose en l'air a 50 blocs ou a l'approche d'une cible, grand rayon."),
+    CRUISE("Missile de croisiere", "Croisiere", 70.0f, 7.0f, 1.7f, 60, 1, "cruise_missile", true, "Vole haut vers le point vise (170 blocs max) puis pique sur la cible. Explosion destructrice."),
+    BALLISTIC("Missile balistique", "Balistique", 90.0f, 9.0f, 0.0f, 80, 1, "ballistic_missile", true, "Tir en cloche sur le point vise (170 blocs max). Explosion enorme, gros cratere."),
+    BUSTER("Missile anti-bunker", "Anti-bunker", 55.0f, 7.5f, 2.1f, 40, 1, "buster_missile", true, "Enorme explosion qui arrache beaucoup de blocs la ou il touche."),
+    BAY("Soute a bombes lourdes", "Soute lourde", 60.0f, 5.5f, 0.0f, 6, 1, "heavy_bomb", true, "Tapis de bombes : maintenir le tir pour larguer. Detruit les blocs.");
+
+    public final String label;
+    public final String shortName;
+    public final String desc;
+    public final String item;
+    public final float dmg;
+    public final float radius;
+    public final float speed;
+    public final int cooldown;
+    public final int perItem;
+    public final boolean heavy;
+
+    private W(String label, String shortName, float dmg, float radius, float speed, int cooldown, int perItem, String item, boolean heavy, String desc) {
+        this.label = label;
+        this.shortName = shortName;
+        this.dmg = dmg;
+        this.radius = radius;
+        this.speed = speed;
+        this.cooldown = cooldown;
+        this.perItem = perItem;
+        this.item = item;
+        this.heavy = heavy;
+        this.desc = desc;
+    }
+
+    public int bit() {
+        return 1 << this.ordinal();
+    }
+
+    public boolean missileLike() {
+        return this == MISSILE || this == IR || this == FLAK || this == CRUISE || this == BALLISTIC || this == BUSTER;
+    }
+
+    public boolean bombLike() {
+        return this == BOMB || this == BAY;
+    }
+
+    public float visScale() {
+        return switch (this) {
+            case CRUISE -> 1.9f;
+            case BALLISTIC -> 2.4f;
+            case BUSTER -> 1.5f;
+            case BAY -> 1.6f;
+            case FLAK -> 1.25f;
+            default -> 1.2f;
+        };
+    }
+}
+
