@@ -69,7 +69,7 @@ extends Item {
             if (!lv.isClientSide) {
                 a.supply(p, st);
             }
-            return InteractionResultHolder.sidedSuccess((Object)st, (boolean)lv.isClientSide);
+            return InteractionResultHolder.sidedSuccess(st, (boolean)lv.isClientSide);
         }
         Aircraft best = null;
         double bd = 36.0;
@@ -83,9 +83,9 @@ extends Item {
             if (!lv.isClientSide) {
                 best.supply(p, st);
             }
-            return InteractionResultHolder.sidedSuccess((Object)st, (boolean)lv.isClientSide);
+            return InteractionResultHolder.sidedSuccess(st, (boolean)lv.isClientSide);
         }
-        return InteractionResultHolder.pass((Object)st);
+        return InteractionResultHolder.pass(st);
     }
 
     public static enum Type {

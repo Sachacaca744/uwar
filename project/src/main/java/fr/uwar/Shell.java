@@ -78,7 +78,7 @@ extends Projectile {
     }
 
     public void setup(W w, Entity owner, Aircraft from, Vec3 vel, UUID target) {
-        this.entityData.set(KIND, (Object)w.ordinal());
+        this.entityData.set(KIND, w.ordinal());
         this.setOwner(owner);
         this.setDeltaMovement(vel);
         this.target = target;
@@ -91,7 +91,7 @@ extends Projectile {
     }
 
     protected void defineSynchedData() {
-        this.entityData.define(KIND, (Object)W.ROCKET.ordinal());
+        this.entityData.define(KIND, W.ROCKET.ordinal());
     }
 
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
@@ -136,9 +136,9 @@ extends Projectile {
                     double d = w == W.FLAK ? 0.26 : (gain = w == W.BUSTER ? 0.12 : 0.2);
                     if (this.target != null && (level = this.level()) instanceof ServerLevel) {
                         ServerLevel sl = (ServerLevel)level;
-                        v2 = sl.getEntity(this.target);
+                        t2 = sl.getEntity(this.target);
                     } else {
-                        v2 = t2 = null;
+                        t2 = null;
                     }
                     if (t2 != null && t2.isAlive() && this.life > 4) {
                         Vec3 want = t2.getBoundingBox().getCenter().subtract(this.position()).normalize();
@@ -159,9 +159,9 @@ extends Projectile {
                     Vec3 vec3 = dir = v.lengthSqr() > 1.0E-4 ? v.normalize() : Vec3.ZERO;
                     if (this.target != null && (t2 = this.level()) instanceof ServerLevel) {
                         ServerLevel sl = (ServerLevel)t2;
-                        v4 = sl.getEntity(this.target);
+                        t = sl.getEntity(this.target);
                     } else {
-                        v4 = t = null;
+                        t = null;
                     }
                     if (!(t != null && t.isAlive() || this.life <= 6 || this.life % 3 != 0)) {
                         Entity best = null;
@@ -280,7 +280,7 @@ extends Projectile {
     }
 
     protected void readAdditionalSaveData(CompoundTag t) {
-        this.entityData.set(KIND, (Object)t.getInt("K"));
+        this.entityData.set(KIND, t.getInt("K"));
     }
 
     protected void addAdditionalSaveData(CompoundTag t) {

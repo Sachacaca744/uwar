@@ -171,17 +171,17 @@ extends Entity {
     }
 
     protected void defineSynchedData() {
-        this.entityData.define(HP, (Object)Float.valueOf(100.0f));
-        this.entityData.define(FUEL, (Object)Float.valueOf(0.0f));
-        this.entityData.define(THR, (Object)Float.valueOf(0.0f));
-        this.entityData.define(SEL, (Object)0);
-        this.entityData.define(LOCK, (Object)-1);
-        this.entityData.define(ENGINE, (Object)false);
-        this.entityData.define(LOADOUT, (Object)W.CANNON.bit());
+        this.entityData.define(HP, Float.valueOf(100.0f));
+        this.entityData.define(FUEL, Float.valueOf(0.0f));
+        this.entityData.define(THR, Float.valueOf(0.0f));
+        this.entityData.define(SEL, 0);
+        this.entityData.define(LOCK, -1);
+        this.entityData.define(ENGINE, false);
+        this.entityData.define(LOADOUT, W.CANNON.bit());
         for (EntityDataAccessor<Integer> a : AM) {
-            this.entityData.define(a, (Object)0);
+            this.entityData.define(a, 0);
         }
-        this.entityData.define(BOOST, (Object)false);
+        this.entityData.define(BOOST, false);
     }
 
     public float hp() {
@@ -243,15 +243,15 @@ extends Entity {
     }
 
     public void setAmmo(W w, int n) {
-        this.entityData.set(AM[w.ordinal()], (Object)Mth.clamp((int)n, (int)0, (int)this.kind.cap[w.ordinal()]));
+        this.entityData.set(AM[w.ordinal()], Mth.clamp((int)n, (int)0, (int)this.kind.cap[w.ordinal()]));
     }
 
     public void setFuel(float f) {
-        this.entityData.set(FUEL, (Object)Float.valueOf(Mth.clamp((float)f, (float)0.0f, (float)this.kind.fuelCap)));
+        this.entityData.set(FUEL, Float.valueOf(Mth.clamp((float)f, (float)0.0f, (float)this.kind.fuelCap)));
     }
 
     public void setHp(float h) {
-        this.entityData.set(HP, (Object)Float.valueOf(Mth.clamp((float)h, (float)0.0f, (float)this.kind.maxHp)));
+        this.entityData.set(HP, Float.valueOf(Mth.clamp((float)h, (float)0.0f, (float)this.kind.maxHp)));
     }
 
     public void nextWeapon(int d) {
@@ -261,8 +261,8 @@ extends Entity {
             idx = ((idx + d) % n + n) % n;
             if (this.has(W.values()[idx])) break;
         }
-        this.entityData.set(SEL, (Object)idx);
-        this.entityData.set(LOCK, (Object)-1);
+        this.entityData.set(SEL, idx);
+        this.entityData.set(LOCK, -1);
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), (SoundEvent)Reg.BEEP.get(), SoundSource.NEUTRAL, 0.5f, 1.6f);
     }
 
@@ -291,10 +291,10 @@ extends Entity {
             if (p.getInventory().add(st)) continue;
             p.drop(st, false);
         }
-        this.entityData.set(LOADOUT, (Object)mask);
-        this.entityData.set(LOCK, (Object)-1);
+        this.entityData.set(LOADOUT, mask);
+        this.entityData.set(LOCK, -1);
         if (!this.has(W.values()[(Integer)this.entityData.get(SEL)])) {
-            this.entityData.set(SEL, (Object)W.CANNON.ordinal());
+            this.entityData.set(SEL, W.CANNON.ordinal());
         }
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ANVIL_USE, SoundSource.NEUTRAL, 0.5f, 1.2f);
         return null;
@@ -310,8 +310,8 @@ extends Entity {
         this.aimYaw = yaw;
         this.aimPitch = pitch;
         if (!this.level().isClientSide) {
-            this.entityData.set(THR, (Object)Float.valueOf(Mth.clamp((float)thr, (float)0.0f, (float)1.0f)));
-            this.entityData.set(BOOST, (Object)(boost && this.kind == Kind.JET && this.fuel() > 20.0f ? 1 : 0));
+            this.entityData.set(THR, Float.valueOf(Mth.clamp((float)thr, (float)0.0f, (float)1.0f)));
+            this.entityData.set(BOOST, (boost && this.kind == Kind.JET && this.fuel() > 20.0f ? 1 : 0));
         }
     }
 
@@ -336,13 +336,13 @@ extends Entity {
     public void applyStack(ItemStack s) {
         CompoundTag t = s.getTagElement("ac");
         if (t == null) {
-            this.entityData.set(LOADOUT, (Object)this.kind.defaultLoadout);
+            this.entityData.set(LOADOUT, this.kind.defaultLoadout);
             this.setHp(this.kind.maxHp);
             this.setFuel(this.kind.fuelCap * 0.4f);
             this.setAmmo(W.CANNON, 150);
             return;
         }
-        this.entityData.set(LOADOUT, (Object)(t.contains("Lo") ? t.getInt("Lo") | W.CANNON.bit() : this.kind.defaultLoadout));
+        this.entityData.set(LOADOUT, (t.contains("Lo") ? t.getInt("Lo") | W.CANNON.bit() : this.kind.defaultLoadout));
         this.setHp(t.getFloat("Hp"));
         this.setFuel(t.getFloat("Fuel"));
         int[] a = t.getIntArray("Am");
@@ -591,7 +591,7 @@ extends Entity {
             amount = Math.max(0.0f, amount - 1.0f);
         }
         float h = this.hp() - amount;
-        this.entityData.set(HP, (Object)Float.valueOf(Math.max(0.0f, h)));
+        this.entityData.set(HP, Float.valueOf(Math.max(0.0f, h)));
         this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.ANVIL_LAND, SoundSource.NEUTRAL, 0.25f, 1.7f);
         if (h <= 0.0f) {
             this.destroy(src.getEntity());
@@ -811,7 +811,7 @@ extends Entity {
         LivingEntity c = this.getControllingPassenger();
         boolean bl = on = c != null && this.fuel() > 0.0f && this.hp() > 0.0f;
         if (on != this.engineOn()) {
-            this.entityData.set(ENGINE, (Object)on);
+            this.entityData.set(ENGINE, on);
         }
         if (this.testPilot == null && c != null && this.tickCount - this.lastInputTick > 6) {
             this.inFire = false;
@@ -819,10 +819,10 @@ extends Entity {
         }
         if (c == null) {
             if (this.thr() != 0.0f) {
-                this.entityData.set(THR, (Object)Float.valueOf(0.0f));
+                this.entityData.set(THR, Float.valueOf(0.0f));
             }
             if (this.boosting()) {
-                this.entityData.set(BOOST, (Object)false);
+                this.entityData.set(BOOST, false);
             }
             this.inFire = false;
         }
@@ -885,7 +885,7 @@ extends Entity {
                 this.fire(c);
             }
         } else if (this.lockId() != -1) {
-            this.entityData.set(LOCK, (Object)-1);
+            this.entityData.set(LOCK, -1);
         }
     }
 
@@ -913,17 +913,17 @@ extends Entity {
     private void updateLock(W w) {
         int id;
         double minCos = switch (w) {
-            case W.IR -> 0.78;
-            case W.FLAK -> 0.9;
-            case W.BUSTER -> 0.965;
-            case W.CRUISE -> 0.96;
+            case IR -> 0.78;
+            case FLAK -> 0.9;
+            case BUSTER -> 0.965;
+            case CRUISE -> 0.96;
             default -> 0.94;
         };
         double range = switch (w) {
-            case W.IR -> 180.0;
-            case W.CRUISE -> 170.0;
-            case W.FLAK -> 150.0;
-            case W.BUSTER -> 100.0;
+            case IR -> 180.0;
+            case CRUISE -> 170.0;
+            case FLAK -> 150.0;
+            case BUSTER -> 100.0;
             default -> 135.0;
         };
         Vec3 o = this.position().add(0.0, (double)this.kind.h * 0.5, 0.0);
@@ -951,7 +951,7 @@ extends Entity {
         }
         int n = id = best == null ? -1 : best.getId();
         if (id != this.lockId()) {
-            this.entityData.set(LOCK, (Object)id);
+            this.entityData.set(LOCK, id);
             if (id != -1) {
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), (SoundEvent)Reg.BEEP.get(), SoundSource.NEUTRAL, 0.6f, 1.2f);
             }
@@ -1172,11 +1172,11 @@ extends Entity {
     protected void readAdditionalSaveData(CompoundTag t) {
         this.setHp(t.getFloat("Hp"));
         this.setFuel(t.getFloat("Fuel"));
-        this.entityData.set(LOADOUT, (Object)(t.contains("Lo") ? t.getInt("Lo") | W.CANNON.bit() : this.kind.defaultLoadout));
+        this.entityData.set(LOADOUT, (t.contains("Lo") ? t.getInt("Lo") | W.CANNON.bit() : this.kind.defaultLoadout));
         for (W w : W.values()) {
             this.setAmmo(w, t.getInt("A" + w.ordinal()));
         }
-        this.entityData.set(SEL, (Object)t.getInt("Sel"));
+        this.entityData.set(SEL, t.getInt("Sel"));
     }
 
     protected void addAdditionalSaveData(CompoundTag t) {
