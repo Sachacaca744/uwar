@@ -311,7 +311,7 @@ extends Entity {
         this.aimPitch = pitch;
         if (!this.level().isClientSide) {
             this.entityData.set(THR, Float.valueOf(Mth.clamp((float)thr, (float)0.0f, (float)1.0f)));
-            this.entityData.set(BOOST, (boost && this.kind == Kind.JET && this.fuel() > 20.0f ? 1 : 0));
+            this.entityData.set(BOOST, boost && this.kind == Kind.JET && this.fuel() > 20.0f);
         }
     }
 
