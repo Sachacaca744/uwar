@@ -4,6 +4,8 @@ on:
     paths:
       - 'project/**'
   workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +21,18 @@ jobs:
           chmod +x gradlew
           set -o pipefail
           ./gradlew build --no-daemon 2>&1 | tee ../build.log
-      - name: Sauvegarder le journal et le jar
+      - name: Enregistrer le journal dans le depot
+        if: always()
+        run: |
+          mkdir -p logs
+          cp build.log logs/build.log
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add logs/build.log
+          git commit -m "journal de compilation" || echo "rien"
+          git pull --rebase || true
+          git push || true
+      - name: Sauvegarder le jar
         if: always()
         uses: actions/upload-artifact@v4
         with:
